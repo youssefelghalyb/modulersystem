@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cache', function (Blueprint $table) {
+        $conn = 'mysql';
+
+
+        Schema::connection($conn)->create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');
             $table->integer('expiration');
         });
 
-        Schema::create('cache_locks', function (Blueprint $table) {
+        Schema::connection($conn)->create('cache_locks', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->string('owner');
             $table->integer('expiration');
@@ -28,8 +31,12 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
+    {     
+        $conn = 'mysql';
+
+
+
+        Schema::connection($conn)->dropIfExists('cache');
+        Schema::connection($conn)->dropIfExists('cache_locks');
     }
 };
